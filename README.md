@@ -4,17 +4,17 @@ OpenSource_SW_TermProject
 
 ## Securing Face Datasets:
 
-  python3 faceDataSet.py
+  ``python3 faceDataSet.py``
 
 
 
 ## Training:
 
-  python3 training.py
+  ``python3 training.py``
 
 ## raspberryBox:
 
-  python3 raspberryBox.py
+  ``python3 raspberryBox.py``
 
 ## Requirements:
 
