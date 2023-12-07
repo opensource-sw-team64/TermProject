@@ -23,3 +23,7 @@ def getImagesAndLabels(path):
             faceSamples.append(img_numpy[y:y+h,x:x+w])
             ids.append(id)
     return faceSamples,ids
+
+print ("\n [INFO] Training faces. It will take a few seconds. Wait ...")
+faces,ids = getImagesAndLabels(path)
+recognizer.train(faces, np.array(ids))
