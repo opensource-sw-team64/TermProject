@@ -22,3 +22,16 @@ cam.set(4, 480) # set video height
 # Define min window size to be recognized as a face
 minW = 0.1*cam.get(3)
 minH = 0.1*cam.get(4)
+
+def servoMotor(pin, degree, t):
+    GPIO.setmode(GPIO.BOARD)
+    GPIO.setup(pin, GPIO.OUT)
+    pwm=GPIO.PWM(pin, 50)
+
+    pwm.start(3)
+
+    pwm.ChangeDutyCycle(degree)
+    time.sleep(t)
+
+    pwm.stop()
+    GPIO.cleanup(pin)
