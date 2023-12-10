@@ -23,17 +23,19 @@ cam.set(4, 480) # set video height
 minW = 0.1*cam.get(3)
 minH = 0.1*cam.get(4)
 
-# servoMotor 함수
+# servoMotor function
 def servoMotor(pin, degree, t):
-    GPIO.setmode(GPIO.BOARD) # 핀의 번호를 보드 기준으로 설정, BCM은 GPIO 번호로 호출함
-    GPIO.setup(pin, GPIO.OUT) # GPIO 통신할 핀 설정
-    pwm=GPIO.PWM(pin, 50) # 서보모터는 PWM을 이용해야됨. 16번핀을 50Hz 주기로 설정
+    GPIO.setmode(GPIO.BOARD) # Set pin numbering to board reference, BCM refers to GPIO numbering
+    GPIO.setup(pin, GPIO.OUT) # Set the pin for GPIO communication
+    pwm = GPIO.PWM(pin, 50) # Servo motor uses PWM. Set pin 16 to a frequency of 50Hz
 
-    pwm.start(3) # 초기 시작값, 반드시 입력해야됨
+    pwm.start(3) # Initial start value, must be entered
 
-    pwm.ChangeDutyCycle(degree) # 보통 2~12 사이의 값을 입력하면됨
-    time.sleep(t) # 서보모터가 이동할만큼의 충분한 시간을 입력. 너무 작은 값을 입력하면 이동하다가 멈춤
+    pwm.ChangeDutyCycle(degree) # Normally, values between 2 to 12 should be entered
+    time.sleep(t) # Enter enough time for the servo motor to move. Too small a value may cause it to stop mid-motion
 
-    # 아래 두줄로 깨끗하게 정리해줘야 다음번 실행할때 런타임 에러가 안남
+    # Clean up with the following two lines to prevent runtime errors in subsequent executions
     pwm.stop()
     GPIO.cleanup(pin)
+
+
