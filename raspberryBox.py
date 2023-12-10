@@ -22,3 +22,52 @@ cam.set(4, 480) # set video height
 # Define min window size to be recognized as a face
 minW = 0.1*cam.get(3)
 minH = 0.1*cam.get(4)
+
+# servoMotor function
+def servoMotor(pin, degree, t):
+    GPIO.setmode(GPIO.BOARD) # Set pin numbering to board reference, BCM refers to GPIO numbering
+    GPIO.setup(pin, GPIO.OUT) # Set the pin for GPIO communication
+    pwm = GPIO.PWM(pin, 50) # Servo motor uses PWM. Set pin 16 to a frequency of 50Hz
+
+    pwm.start(3) # Initial start value, must be entered
+
+    pwm.ChangeDutyCycle(degree) # Normally, values between 2 to 12 should be entered
+    time.sleep(t) # Enter enough time for the servo motor to move. Too small a value may cause it to stop mid-motion
+
+    # Clean up with the following two lines to prevent runtime errors in subsequent executions
+    pwm.stop()
+    GPIO.cleanup(pin)
+
+open=False
+while True:
+    ret, img = cam.read()
+    img = cv2.flip(img, -1) # Flip vertically, horizontally
+    gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY) # gray scale
+    
+    # face detection
+    faces = faceCascade.detectMultiScale( 
+        gray,
+        scaleFactor = 1.2,
+        minNeighbors = 5,
+        minSize = (int(minW), int(minH)),
+    )
+    # draw rectangle on detected face image
+    for(x,y,w,h) in faces:
+        cv2.rectangle(img, (x,y), (x+w,y+h), (0,255,0), 2)
+        # Confidence = 0 -> perfect matching
+        id, confidence = recognizer.predict(gray[y:y+h,x:x+w])
+        # If box is closed and can recognize the user -> open the box
+        if (not open and confidence < 75):
+            open = True
+            servoMotor(16, 11.0, 1) # open motor
+            # Maintain open status for 5 seconds
+            time.sleep(5)
+            
+    # box is opened, and cannot detect the user -> close the box
+    if(open and (len(faces)==0 or confidence>=75)):
+        open = False
+        servoMotor(16, 3.0, 1) # close motor
+
+        # release and restart the camera
+        cam.release()
+        cam = cv2.VideoCapture(0)
