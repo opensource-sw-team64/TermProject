@@ -41,21 +41,25 @@ def servoMotor(pin, degree, t):
 open=False
 while True:
     ret, img = cam.read()
-    img = cv2.flip(img, -1)
-    gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
+    img = cv2.flip(img, -1) # Flip vertically, horizontally
+    gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY) # gray scale
     
+    # face detection
     faces = faceCascade.detectMultiScale( 
         gray,
         scaleFactor = 1.2,
         minNeighbors = 5,
         minSize = (int(minW), int(minH)),
     )
-    
+    # draw rectangle on detected face image
     for(x,y,w,h) in faces:
         cv2.rectangle(img, (x,y), (x+w,y+h), (0,255,0), 2)
+        # Confidence = 0 -> perfect matching
         id, confidence = recognizer.predict(gray[y:y+h,x:x+w])
+        # If box is closed and can recognize the user -> open the box
         if (not open and confidence < 75):
             open = True
-            servoMotor(16, 11.0, 1)
+            servoMotor(16, 11.0, 1) # open motor
+            # Maintain open status for 5 seconds
             time.sleep(5)
 
