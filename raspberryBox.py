@@ -63,3 +63,11 @@ while True:
             # Maintain open status for 5 seconds
             time.sleep(5)
 
+    # box is opened, and cannot detect the user -> close the box
+    if(open and (len(faces)==0 or confidence>=75)):
+        open = False
+        servoMotor(16, 3.0, 1) # close motor
+
+        # release and restart the camera
+        cam.release()
+        cam = cv2.VideoCapture(0)
