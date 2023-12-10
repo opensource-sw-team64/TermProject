@@ -38,4 +38,24 @@ def servoMotor(pin, degree, t):
     pwm.stop()
     GPIO.cleanup(pin)
 
+open=False
+while True:
+    ret, img = cam.read()
+    img = cv2.flip(img, -1)
+    gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
+    
+    faces = faceCascade.detectMultiScale( 
+        gray,
+        scaleFactor = 1.2,
+        minNeighbors = 5,
+        minSize = (int(minW), int(minH)),
+    )
+    
+    for(x,y,w,h) in faces:
+        cv2.rectangle(img, (x,y), (x+w,y+h), (0,255,0), 2)
+        id, confidence = recognizer.predict(gray[y:y+h,x:x+w])
+        if (not open and confidence < 75):
+            open = True
+            servoMotor(16, 11.0, 1)
+            time.sleep(5)
 
