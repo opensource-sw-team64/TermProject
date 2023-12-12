@@ -4,3 +4,7 @@ import cv2
 cap = cv2.VideoCapture(0)
 cap.set(3, 640)  # set Width
 cap.set(4, 480)  # set Height
+
+# Load the Haar Cascade model for face detection
+path = '../opencv/opencv-4.1.2/data/haarcascades/haarcascade_frontalface_default.xml'
+face_detector = cv2.CascadeClassifier(path)
