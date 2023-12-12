@@ -8,3 +8,7 @@ cap.set(4, 480)  # set Height
 # Load the Haar Cascade model for face detection
 path = '../opencv/opencv-4.1.2/data/haarcascades/haarcascade_frontalface_default.xml'
 face_detector = cv2.CascadeClassifier(path)
+
+# Get user ID input and print initialization message
+face_id = input('\n enter user id end press <return> ==> ')
+print("\n [INFO] Initializing face capture. Look the camera and wait ...")
