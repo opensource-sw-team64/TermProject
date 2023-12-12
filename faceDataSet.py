@@ -29,3 +29,8 @@ while True:
     k = cv2.waitKey(100) & 0xff
     if k == 27:
         break
+
+# Release the camera and close all windows
+cap.release()
+cv2.destroyAllWindows()
+
