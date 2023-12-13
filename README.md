@@ -27,6 +27,7 @@ A code that configures the locker with a box that can replace the actual locker,
   ``python3 raspberryBox.py``
 
 
+[Demo](https://youtu.be/wCUNufFC90k)
 
 ## Requirements:
 
