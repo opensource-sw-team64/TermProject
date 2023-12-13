@@ -40,4 +40,5 @@ A code that configures the locker with a box that can replace the actual locker,
 
 ## Raspberry Pi Setting
 [Setting](https://projects.raspberrypi.org/en/projects/raspberry-pi-setting-up) -> Follow the order, but see the link below for OS installation
-[Os](https://munjjac.tistory.com/6) -> Follow the ssh usage, user name, and password setting
+
+[OS](https://munjjac.tistory.com/6) -> Follow the ssh usage, user name, and password setting
